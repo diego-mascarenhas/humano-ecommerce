@@ -1,0 +1,27 @@
+{
+	"name": "idoneo/humano-ecommerce",
+	"description": "E-commerce module (stores, products, orders)",
+	"license": "AGPL-3.0",
+	"type": "library",
+	"require": {
+		"php": "^8.1",
+		"illuminate/support": "^10.0 || ^11.0 || ^12.0",
+		"spatie/laravel-package-tools": "^1.16"
+	},
+	"autoload": {
+		"psr-4": {
+			"Idoneo\\HumanoEcommerce\\": "src/"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Idoneo\\HumanoEcommerce\\HumanoEcommerceServiceProvider"
+			]
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}
+
+
