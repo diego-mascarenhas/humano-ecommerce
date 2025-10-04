@@ -63,19 +63,24 @@ class HumanoEcommerceServiceProvider extends PackageServiceProvider
 		// Ensure permissions exist for menus and access
 		try {
 			if (Schema::hasTable('permissions') && class_exists(Permission::class)) {
-				$permissions = [
-					'store.list',
-					'product.list',
-					'order.list',
-				];
-
-				foreach ($permissions as $name) {
-					Permission::firstOrCreate(['name' => $name], ['guard_name' => 'web']);
+				// Run the permissions seeder
+				if (class_exists(\HumanoEcommerce\Database\Seeders\EcommercePermissionsSeeder::class)) {
+					(new \HumanoEcommerce\Database\Seeders\EcommercePermissionsSeeder())->run();
 				}
 
+				// Grant all ecommerce permissions to admin role
 				$adminRole = class_exists(Role::class) ? Role::where('name', 'admin')->first() : null;
 				if ($adminRole) {
-					$adminRole->givePermissionTo($permissions);
+					$ecommercePermissions = Permission::where(function($query) {
+						$query->where('name', 'LIKE', 'store.%')
+							->orWhere('name', 'LIKE', 'product.%')
+							->orWhere('name', 'LIKE', 'order.%')
+							->orWhere('name', 'LIKE', 'ecommerce.%');
+					})->pluck('name')->toArray();
+					
+					if (!empty($ecommercePermissions)) {
+						$adminRole->givePermissionTo($ecommercePermissions);
+					}
 				}
 			}
 		} catch (\Throwable $e) {
