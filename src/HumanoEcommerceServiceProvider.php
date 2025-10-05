@@ -34,22 +34,24 @@ class HumanoEcommerceServiceProvider extends PackageServiceProvider
 			if (Schema::hasTable('modules')) {
 				if (class_exists(\App\Models\Module::class)) {
 					\App\Models\Module::updateOrCreate(
-						['key' => 'ecommerce'],
+						['key' => 'stores'],
 						[
-							'name' => 'E-commerce',
-							'icon' => 'ti ti-shopping-cart',
-							'description' => 'E-commerce module (stores, products, orders)',
+							'name' => 'Stores',
+							'icon' => 'ti ti-building-store',
+							'description' => 'Online stores management module',
 							'is_core' => false,
+							'group' => 'ecommerce',
+							'order' => 3,
 							'status' => 1,
 						]
 					);
 				} else {
 					SystemModule::query()->updateOrCreate(
-						['key' => 'ecommerce'],
+						['key' => 'stores'],
 						[
-							'name' => 'E-commerce',
-							'icon' => 'ti ti-shopping-cart',
-							'description' => 'E-commerce module (stores, products, orders)',
+							'name' => 'Stores',
+							'icon' => 'ti ti-building-store',
+							'description' => 'Online stores management module',
 							'is_core' => false,
 							'status' => 1,
 						]
